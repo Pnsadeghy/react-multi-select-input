@@ -1,0 +1,64 @@
+.base-multi-select-input{
+  position: relative;
+
+  $height: 2.5rem;
+  $paddingStart: 1rem;
+  $paddingEnd: 2rem;
+
+  &_button{
+    position: relative;
+    border: solid thin #ccc;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: white;
+
+    &.focus{
+      border-color: blue;
+    }
+
+    &_placeholder {
+      position: absolute;
+      z-index: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      line-height: $height;
+      padding-inline-start: $paddingStart;
+      padding-inline-end: $paddingEnd;
+    }
+
+    &_input {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      height: $height;
+      padding-inline-start: $paddingStart;
+      padding-inline-end: $paddingEnd;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+
+      &.focus{
+        opacity: 100;
+      }
+    }
+  }
+
+  &_dropdown {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    inset-inline-start: 0;
+    min-width: 100px;
+    max-width: 200px;
+    z-index: 10;
+    background: white;
+    border: solid thin #ccc;
+    border-radius: 0.5rem;
+    margin-top: 5px;
+  }
+}
