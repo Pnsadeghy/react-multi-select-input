@@ -4,16 +4,18 @@
   $height: 2.5rem;
   $paddingStart: 1rem;
   $paddingEnd: 2rem;
+  $borderRadius: 0.75rem;
 
   &_button{
     position: relative;
     border: solid thin #ccc;
-    border-radius: 0.5rem;
+    border-radius: $borderRadius;
     overflow: hidden;
     background: white;
 
     &.focus{
       border-color: blue;
+      box-shadow: 0 0 0 2px #eee;
     }
 
     &_placeholder {
@@ -51,14 +53,12 @@
   &_dropdown {
     position: absolute;
     top: 100%;
-    width: 100%;
+    min-width: 100%;
     inset-inline-start: 0;
-    min-width: 100px;
-    max-width: 200px;
     z-index: 10;
     background: white;
-    border: solid thin #ccc;
-    border-radius: 0.5rem;
-    margin-top: 5px;
+    border: solid 2px #eee;
+    border-radius: $borderRadius;
+    margin-top: 0.5rem;
   }
 }

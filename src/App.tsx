@@ -5,7 +5,16 @@ import './App.scss';
 
 function App() {
 
-    const inputOptions: InputOptionInterface[] = []
+    const inputOptions: InputOptionInterface[] = [
+        {
+            value: "1",
+            label: "Option 1"
+        },
+        {
+            value: "test",
+            label: "Option Test"
+        }
+    ]
 
     const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
