@@ -16,16 +16,24 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
+    const [internalOptions, setInternalOptions] = useState<InputOptionInterface[]>(options);
+
+    const buttonText = useMemo(() => {
+        if (model.length === 0) return placeholder || 'Select options...'
+        return internalOptions
+            .filter((i: InputOptionInterface) => model.includes(i.value))
+            .map((i: InputOptionInterface) => i.label).join(', ')
+    }, [model, internalOptions]);
 
     const showOptions = useMemo(() => {
         const editedSearchValue = searchValue.toLowerCase();
         return (editedSearchValue
-            ? options.filter((i: InputOptionInterface) => i.label.toLowerCase().includes(editedSearchValue))
-            : options).map((i: InputOptionInterface) => ({
+            ? internalOptions.filter((i: InputOptionInterface) => i.label.toLowerCase().includes(editedSearchValue))
+            : internalOptions).map((i: InputOptionInterface) => ({
             ...i,
             checked: model.includes(i.value)
         }))
-    }, [searchValue, options, model]);
+    }, [searchValue, internalOptions, model]);
 
     const handleFocus = () => {
         setSearchValue("");
@@ -34,6 +42,30 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
 
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value.trim());
+    }
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter' && searchValue) {
+            const editedSearchValue = searchValue.toLowerCase();
+            const filteredOptions = internalOptions.filter((i: InputOptionInterface) => i.label.toLowerCase().includes(editedSearchValue));
+
+            if (filteredOptions.length === 0) {
+                const newOption: InputOptionInterface = { label: searchValue, value: searchValue };
+                setInternalOptions([...internalOptions, newOption]);
+                onChange([...model, newOption.value]);
+            } else {
+                if (!model.includes(filteredOptions[0].value))
+                    onChange([...model, filteredOptions[0].value]);
+            }
+            setSearchValue("");
+        }
+    };
+
+    const handleOptionClick = (option: InputOptionInterface) => {
+        onChange(option.checked
+            ? model.filter((i: string) => i !== option.value)
+            : [...model, option.value]
+        );
     }
 
     useEffect(() => {
@@ -54,13 +86,14 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
         <div className={className} ref={wrapperRef}>
             <div className={`${className}_button ${isOpen && 'focus'}`}>
                 <span className={`${className}_button_placeholder`}>
-                    {placeholder || 'Select options...'}
+                    {buttonText}
                 </span>
                 <input
-                    className={`${className}_button_input ${isOpen && 'focus'}`}
+                    className={`${className}_button_input`}
                     onFocus={handleFocus}
                     value={searchValue}
                     onChange={handleSearchInputChange}
+                    onKeyDown={handleKeyDown}
                     type="text"/>
             </div>
             {
@@ -68,12 +101,15 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
                 <div className={`${className}_dropdown`}>
                     {showOptions.length > 0 ? (
                         showOptions.map((option) => (
-                            <div key={option.value} className="base-multi-select-input__dropdown-item">
-                                {option.label}
-                            </div>
+                            <button type="button"
+                                    key={option.value}
+                                    onClick={() => handleOptionClick(option)}
+                                    className={`${className}_dropdown_item`}>
+                                {option.label} {option.checked ? '(checked)' : ''}
+                            </button>
                         ))
                     ) : (
-                        <div className="base-multi-select-input__dropdown-item">{searchValue ? 'Nothing found!' : 'Empty list'}</div>
+                        <div className={`${className}_dropdown_empty`}>{searchValue ? 'Nothing found!' : 'Empty list'}</div>
                     )}
                 </div>
             }
