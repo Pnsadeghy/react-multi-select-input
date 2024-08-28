@@ -1,11 +1,11 @@
-import BaseDropdown from "./components/dropdown/BaseDropdown";
+import BaseMultiSelectInput from "./components/base-multi-select-input/BaseMultiSelectInput";
 import React from 'react';
 import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      <BaseDropdown />
+      <BaseMultiSelectInput />
     </div>
   );
 }

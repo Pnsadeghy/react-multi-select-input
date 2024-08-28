@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import BaseDropdown from './BaseDropdown';
+import BaseMultiSelectInput from './BaseMultiSelectInput';
 
 test('renders', () => {
-    render(<BaseDropdown />);
+    render(<BaseMultiSelectInput />);
 });
