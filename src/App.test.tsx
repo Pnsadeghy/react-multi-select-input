@@ -1,9 +1,11 @@
-import { render, screen } from '@testing-library/react';
-import BaseMultiSelectInput from "./components/base-multi-select-input/BaseMultiSelectInput";
+import { render } from '@testing-library/react';
 import React from 'react';
 import App from './App';
 
-test('renders', () => {
-  render(<App />);
-  expect(BaseMultiSelectInput).toBeInTheDocument();
+test('renders BaseMultiSelectInput component', () => {
+  const { container } = render(<App />);
+
+  const dropdownElement = container.querySelector('.BaseMultiSelectInput');
+
+  expect(dropdownElement).toBeInTheDocument();
 });
