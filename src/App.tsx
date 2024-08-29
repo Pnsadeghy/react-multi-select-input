@@ -28,11 +28,13 @@ function App() {
 
   return (
     <div className="App">
-      <BaseMultiSelectInput
-          options={inputOptions}
-          model={selectedValues}
-          onChange={handleInputChanges}
-      />
+      <div className="container" >
+          <BaseMultiSelectInput
+              options={inputOptions}
+              model={selectedValues}
+              onChange={handleInputChanges}
+          />
+      </div>
     </div>
   );
 }

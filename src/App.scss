@@ -3,4 +3,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
+
+  .container {
+    width: 20rem;
+    max-width: 100%;
+  }
 }

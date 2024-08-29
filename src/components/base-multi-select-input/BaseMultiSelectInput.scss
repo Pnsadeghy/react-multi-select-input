@@ -1,22 +1,30 @@
 .base-multi-select-input{
-  position: relative;
-
   $height: 2.5rem;
   $lineHeight: 2.6rem;
   $paddingStart: 1rem;
   $paddingEnd: 2rem;
   $borderRadius: 0.75rem;
+  $activeColor: #5e6fbd;
+  $highlightColor: #f2f4ff;
+  $borderColor: #d9d9d9;
+  $textColor: #5b5b5b;
+
+  position: relative;
+  width: 100%;
+  font-size: 0.9rem;
+  color: $textColor;
 
   &_button{
     position: relative;
-    border: solid thin #ccc;
+    border: solid thin $borderColor;
     border-radius: $borderRadius;
     overflow: hidden;
     background: white;
+    transition: 0.4s;
 
     &.open{
-      border-color: blue;
-      box-shadow: 0 0 0 2px #eee;
+      border-color: $activeColor;
+      box-shadow: 0 0 0 4px $highlightColor;
     }
 
     &_placeholder {
@@ -47,7 +55,7 @@
       padding-inline-end: $paddingEnd;
       border: none;
       outline: none;
-      font-size: 1rem;
+      font-size: inherit;
       background: transparent;
 
       &:focus{
@@ -65,8 +73,10 @@
       align-items: center;
       justify-content: center;
       z-index: 1;
+
       svg{
         height: 1.2rem;
+        transition: 0.4s;
       }
 
       &.open svg{
@@ -82,10 +92,10 @@
     inset-inline-start: 0;
     z-index: 10;
     background: white;
-    border: solid 2px #eee;
+    border: solid 1px $borderColor;
     border-radius: $borderRadius;
     margin-top: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.7rem 0.6rem;
 
     &_item {
       width: 100%;
@@ -95,21 +105,25 @@
       border: none;
       background: transparent;
       text-align: start;
-      padding: 0.5rem;
+      padding: 0.6rem 0.75rem;
       cursor: pointer;
       border-radius: 0.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.7rem;
+      transition: 0.4s;
+      color: inherit;
+
       &:last-child{
         margin-bottom: 0;
       }
 
       &.checked {
-        background: #6ee0ff;
-        color: blue;
+        background: $highlightColor;
+        color: $activeColor;
+        font-weight: bold;
       }
 
       &:hover, &.highlight{
-        background: #eee;
+        background: $highlightColor;
       }
 
       &_text{
@@ -124,6 +138,8 @@
       &_check_icon {
         height: 1rem;
         opacity: 0;
+        transition: 0.4s;
+        color: inherit;
         &.checked{
           opacity: 1;
         }
