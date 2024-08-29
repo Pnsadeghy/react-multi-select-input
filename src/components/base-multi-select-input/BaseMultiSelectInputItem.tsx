@@ -15,7 +15,14 @@ const BaseMultiSelectInputItem: React.FC<BaseMultiSelectInputItemProps> = ({opti
         <button type="button"
                 className={`${className} ${highlight && 'highlight'} ${option.checked && 'checked'}`}
                 onClick={onClick}>
-            <span>{option.label}</span>
+            <span className={`${className}_text`}>
+                {option.label}
+                {option.icon &&
+                    <img src={option.icon}
+                         className={`${className}_text_image`}
+                         alt={option.label}/>
+                }
+            </span>
             <BaseMultiSelectInputCheckIcon checked={option.checked} />
         </button>
     )

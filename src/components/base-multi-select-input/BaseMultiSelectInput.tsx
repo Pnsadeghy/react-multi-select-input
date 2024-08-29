@@ -2,6 +2,7 @@ import type InputOptionInterface from "./interfaces/input.option.interface";
 import BaseMultiSelectInputArrowIcon from "./BaseMultiSelectInputArrowIcon";
 import BaseMultiSelectInputItem from "./BaseMultiSelectInputItem";
 import React, {useState, useEffect, useRef, useMemo} from 'react';
+import "./BaseMultiSelectInput.scss"
 
 interface BaseMultiSelectInputProps {
     options: InputOptionInterface[];
@@ -16,6 +17,7 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
 
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isSearchFocus, setIsSearchFocus] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
     const [highlightIndex, setHighlightIndex] = useState<number>(-1);
     const [internalOptions, setInternalOptions] = useState<InputOptionInterface[]>(options);
@@ -41,10 +43,12 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
         setSearchValue("");
         setIsOpen(true);
         setHighlightIndex(-1);
+        setIsSearchFocus(true);
     }
 
     const handleBlur = () => {
         setHighlightIndex(-1);
+        setIsSearchFocus(false);
     }
 
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +57,8 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
     }
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!isSearchFocus) return;
+
         if (event.key === 'ArrowDown') {
             if (highlightIndex < showOptions.length - 1)
                 setHighlightIndex(highlightIndex + 1);
@@ -112,7 +118,7 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
 
     return (
         <div className={className} ref={wrapperRef}>
-            <div className={`${className}_button ${isOpen && 'focus'}`}>
+            <div className={`${className}_button ${isOpen && 'open'}`}>
                 <input
                     className={`${className}_button_input`}
                     onFocus={handleFocus}
@@ -122,10 +128,10 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
                     placeholder={buttonText}
                     onKeyDown={handleKeyDown}
                     type="text"/>
-                <span className={`${className}_button_placeholder`}>
+                <span className={`${className}_button_placeholder ${isSearchFocus && 'focus'}`}>
                     {buttonText}
                 </span>
-                <BaseMultiSelectInputArrowIcon />
+                <BaseMultiSelectInputArrowIcon open={isOpen} />
             </div>
             {
                 isOpen &&

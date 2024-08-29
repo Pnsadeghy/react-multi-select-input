@@ -1,5 +1,7 @@
 import type InputOptionInterface from "./components/base-multi-select-input/interfaces/input.option.interface";
 import BaseMultiSelectInput from "./components/base-multi-select-input/BaseMultiSelectInput";
+import OmegaImage from "./assets/icons/omega.png";
+import RenrenImage from "./assets/icons/renren.png";
 import React, {useState} from 'react';
 import './App.scss';
 
@@ -9,12 +11,12 @@ function App() {
         {
             value: "1",
             label: "Option 1",
-            icon: "assets/icon/omega.png"
+            icon: OmegaImage
         },
         {
             value: "test",
             label: "Option Test",
-            icon: "assets/icon/renren.png"
+            icon: RenrenImage
         }
     ]
 
