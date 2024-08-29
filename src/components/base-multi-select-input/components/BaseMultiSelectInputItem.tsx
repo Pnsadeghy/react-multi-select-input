@@ -1,5 +1,5 @@
 import BaseMultiSelectInputCheckIcon from "./BaseMultiSelectInputCheckIcon";
-import type InputOptionInterface from "./interfaces/input.option.interface"
+import type InputOptionInterface from "../interfaces/input.option.interface"
 import React from "react";
 
 interface BaseMultiSelectInputItemProps {
