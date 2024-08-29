@@ -8,11 +8,13 @@ function App() {
     const inputOptions: InputOptionInterface[] = [
         {
             value: "1",
-            label: "Option 1"
+            label: "Option 1",
+            icon: "assets/icon/omega.png"
         },
         {
             value: "test",
-            label: "Option Test"
+            label: "Option Test",
+            icon: "assets/icon/renren.png"
         }
     ]
 
