@@ -3,7 +3,7 @@ import BaseMultiSelectInputArrowIcon from "./components/BaseMultiSelectInputArro
 import useBaseMultiSelectInputHook from "./hooks/base.multi.select.input.hook";
 import BaseMultiSelectInputItem from "./components/BaseMultiSelectInputItem";
 import type InputOptionInterface from "./interfaces/input.option.interface";
-import React, {useState, useEffect, useRef, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import "./BaseMultiSelectInput.scss"
 
 interface BaseMultiSelectInputProps {
