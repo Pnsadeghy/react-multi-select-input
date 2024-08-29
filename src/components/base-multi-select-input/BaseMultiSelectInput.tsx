@@ -43,6 +43,10 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
         setHighlightIndex(-1);
     }
 
+    const handleBlur = () => {
+        setHighlightIndex(-1);
+    }
+
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value.trim());
         setHighlightIndex(-1);
@@ -62,28 +66,34 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
         }
 
         if (event.key === 'Enter') {
+            const editedSearchValue = searchValue.toLowerCase();
+
             if (highlightIndex < 0) {
-                const editedSearchValue = searchValue.toLowerCase();
+                if (!editedSearchValue) return;
+
                 const newOption: InputOptionInterface = { label: editedSearchValue, value: editedSearchValue };
                 setInternalOptions([...internalOptions, newOption]);
                 onChange([...model, newOption.value]);
                 setSearchValue("");
-            } else {
-                const selectedValue = showOptions[highlightIndex].value
-
-                onChange(model.includes(selectedValue)
-                    ? model.filter((i: string) => i !== selectedValue)
-                    : [...model, selectedValue]
-                );
+                return;
             }
+
+            toggleModelOptionsByValue(showOptions[highlightIndex].value);
         }
     };
 
     const handleOptionClick = (option: InputOptionInterface) => {
-        onChange(option.checked
-            ? model.filter((i: string) => i !== option.value)
-            : [...model, option.value]
-        );
+        toggleModelOptionsByValue(option.value);
+    }
+
+    const toggleModelOptionsByValue = (value: string) => {
+        const editableModel = [...model];
+        const index = editableModel.indexOf(value);
+        if (index >= 0)
+            editableModel.splice(index, 1);
+        else
+            editableModel.push(value);
+        onChange(editableModel);
     }
 
     useEffect(() => {
@@ -109,8 +119,10 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
                 <input
                     className={`${className}_button_input`}
                     onFocus={handleFocus}
+                    onBlur={handleBlur}
                     value={searchValue}
                     onChange={handleSearchInputChange}
+                    placeholder={buttonText}
                     onKeyDown={handleKeyDown}
                     type="text"/>
             </div>
