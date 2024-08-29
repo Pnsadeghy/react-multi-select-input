@@ -44,6 +44,7 @@
       border: none;
       outline: none;
       font-size: 1rem;
+      background: transparent;
 
       &:focus{
         opacity: 100;
@@ -65,14 +66,25 @@
 
     &_item {
       width: 100%;
-      display: block;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border: none;
       background: transparent;
       text-align: start;
       padding: 0.5rem $paddingStart;
+      cursor: pointer;
 
       &:hover, &.highlight{
         background: #eee;
+      }
+
+      &_check_icon {
+        height: 1rem;
+        opacity: 0;
+        &.checked{
+          opacity: 1;
+        }
       }
     }
   }

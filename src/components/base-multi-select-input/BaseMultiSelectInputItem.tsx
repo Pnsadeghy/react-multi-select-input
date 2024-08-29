@@ -1,3 +1,4 @@
+import BaseMultiSelectInputCheckIcon from "./BaseMultiSelectInputCheckIcon";
 import type InputOptionInterface from "./interfaces/input.option.interface"
 import React from "react";
 
@@ -12,9 +13,10 @@ const className = 'base-multi-select-input_dropdown_item';
 const BaseMultiSelectInputItem: React.FC<BaseMultiSelectInputItemProps> = ({option, highlight, onClick}) => {
     return (
         <button type="button"
-                className={`${className} ${highlight && 'highlight'}`}
+                className={`${className} ${highlight && 'highlight'} ${option.checked && 'checked'}`}
                 onClick={onClick}>
-            {option.label} {option.checked ? '(checked)' : ''}
+            <span>{option.label}</span>
+            <BaseMultiSelectInputCheckIcon checked={option.checked} />
         </button>
     )
 }

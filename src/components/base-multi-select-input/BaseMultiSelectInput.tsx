@@ -1,7 +1,7 @@
 import type InputOptionInterface from "./interfaces/input.option.interface";
-import React, {useState, useEffect, useRef, useMemo} from 'react';
-import "./BaseMultiSelectInput.scss"
+import BaseMultiSelectInputArrowIcon from "./BaseMultiSelectInputArrowIcon";
 import BaseMultiSelectInputItem from "./BaseMultiSelectInputItem";
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 
 interface BaseMultiSelectInputProps {
     options: InputOptionInterface[];
@@ -113,9 +113,6 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
     return (
         <div className={className} ref={wrapperRef}>
             <div className={`${className}_button ${isOpen && 'focus'}`}>
-                <span className={`${className}_button_placeholder`}>
-                    {buttonText}
-                </span>
                 <input
                     className={`${className}_button_input`}
                     onFocus={handleFocus}
@@ -125,6 +122,10 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
                     placeholder={buttonText}
                     onKeyDown={handleKeyDown}
                     type="text"/>
+                <span className={`${className}_button_placeholder`}>
+                    {buttonText}
+                </span>
+                <BaseMultiSelectInputArrowIcon />
             </div>
             {
                 isOpen &&
