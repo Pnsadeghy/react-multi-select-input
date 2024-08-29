@@ -1,6 +1,7 @@
 import type InputOptionInterface from "./interfaces/input.option.interface";
 import React, {useState, useEffect, useRef, useMemo} from 'react';
 import "./BaseMultiSelectInput.scss"
+import BaseMultiSelectInputItem from "./BaseMultiSelectInputItem";
 
 interface BaseMultiSelectInputProps {
     options: InputOptionInterface[];
@@ -16,6 +17,7 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
+    const [highlightIndex, setHighlightIndex] = useState<number>(-1);
     const [internalOptions, setInternalOptions] = useState<InputOptionInterface[]>(options);
 
     const buttonText = useMemo(() => {
@@ -38,26 +40,42 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
     const handleFocus = () => {
         setSearchValue("");
         setIsOpen(true);
+        setHighlightIndex(-1);
     }
 
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value.trim());
+        setHighlightIndex(-1);
     }
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter' && searchValue) {
-            const editedSearchValue = searchValue.toLowerCase();
-            const filteredOptions = internalOptions.filter((i: InputOptionInterface) => i.label.toLowerCase().includes(editedSearchValue));
+        if (event.key === 'ArrowDown') {
+            if (highlightIndex < showOptions.length - 1)
+                setHighlightIndex(highlightIndex + 1);
+            return;
+        }
 
-            if (filteredOptions.length === 0) {
-                const newOption: InputOptionInterface = { label: searchValue, value: searchValue };
+        if (event.key === 'ArrowUp') {
+            if (highlightIndex > 0)
+                setHighlightIndex(highlightIndex - 1);
+            return;
+        }
+
+        if (event.key === 'Enter') {
+            if (highlightIndex < 0) {
+                const editedSearchValue = searchValue.toLowerCase();
+                const newOption: InputOptionInterface = { label: editedSearchValue, value: editedSearchValue };
                 setInternalOptions([...internalOptions, newOption]);
                 onChange([...model, newOption.value]);
+                setSearchValue("");
             } else {
-                if (!model.includes(filteredOptions[0].value))
-                    onChange([...model, filteredOptions[0].value]);
+                const selectedValue = showOptions[highlightIndex].value
+
+                onChange(model.includes(selectedValue)
+                    ? model.filter((i: string) => i !== selectedValue)
+                    : [...model, selectedValue]
+                );
             }
-            setSearchValue("");
         }
     };
 
@@ -100,13 +118,12 @@ const BaseMultiSelectInput: React.FC<BaseMultiSelectInputProps> = ({ options, mo
                 isOpen &&
                 <div className={`${className}_dropdown`}>
                     {showOptions.length > 0 ? (
-                        showOptions.map((option) => (
-                            <button type="button"
-                                    key={option.value}
-                                    onClick={() => handleOptionClick(option)}
-                                    className={`${className}_dropdown_item`}>
-                                {option.label} {option.checked ? '(checked)' : ''}
-                            </button>
+                        showOptions.map((option, index) => (
+                            <BaseMultiSelectInputItem
+                                key={option.value}
+                                option={option}
+                                highlight={index === highlightIndex}
+                                onClick={() => handleOptionClick(option)} />
                         ))
                     ) : (
                         <div className={`${className}_dropdown_empty`}>{searchValue ? 'Nothing found!' : 'Empty list'}</div>

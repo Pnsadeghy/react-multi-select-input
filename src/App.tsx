@@ -29,7 +29,6 @@ function App() {
           model={selectedValues}
           onChange={handleInputChanges}
       />
-        {selectedValues}
     </div>
   );
 }

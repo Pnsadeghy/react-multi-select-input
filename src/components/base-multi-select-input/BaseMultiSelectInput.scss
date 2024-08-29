@@ -60,5 +60,19 @@
     border: solid 2px #eee;
     border-radius: $borderRadius;
     margin-top: 0.5rem;
+    padding: 0.5rem 0;
+
+    &_item {
+      width: 100%;
+      display: block;
+      border: none;
+      background: transparent;
+      text-align: start;
+      padding: 0.5rem $paddingStart;
+
+      &:hover, &.highlight{
+        background: #eee;
+      }
+    }
   }
 }
