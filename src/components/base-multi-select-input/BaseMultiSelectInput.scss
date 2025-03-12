@@ -1,0 +1,149 @@
+.base-multi-select-input{
+  $height: 2.5rem;
+  $lineHeight: 2.6rem;
+  $paddingStart: 1rem;
+  $paddingEnd: 2rem;
+  $borderRadius: 0.75rem;
+  $activeColor: #5e6fbd;
+  $highlightColor: #f2f4ff;
+  $borderColor: #d9d9d9;
+  $textColor: #5b5b5b;
+
+  position: relative;
+  width: 100%;
+  font-size: 0.9rem;
+  color: $textColor;
+
+  &_button{
+    position: relative;
+    border: solid thin $borderColor;
+    border-radius: $borderRadius;
+    overflow: hidden;
+    background: white;
+    transition: 0.4s;
+
+    &.open{
+      border-color: $activeColor;
+      box-shadow: 0 0 0 4px $highlightColor;
+    }
+
+    &_placeholder {
+      position: absolute;
+      z-index: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      line-height: $lineHeight;
+      padding-inline-start: $paddingStart;
+      padding-inline-end: $paddingEnd;
+
+      &.focus {
+        opacity: 0;
+      }
+    }
+
+    &_input {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      height: $height;
+      padding-inline-start: $paddingStart;
+      padding-inline-end: $paddingEnd;
+      border: none;
+      outline: none;
+      font-size: inherit;
+      background: transparent;
+
+      &:focus{
+        opacity: 100;
+      }
+    }
+
+    &_arrow{
+      height: 100%;
+      width: $paddingEnd;
+      position: absolute;
+      inset-inline-end: 0;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+
+      svg{
+        height: 1.2rem;
+        transition: 0.4s;
+      }
+
+      &.open svg{
+        transform: rotateZ(180deg);
+      }
+    }
+  }
+
+  &_dropdown {
+    position: absolute;
+    top: 100%;
+    min-width: 100%;
+    inset-inline-start: 0;
+    z-index: 10;
+    background: white;
+    border: solid 1px $borderColor;
+    border-radius: $borderRadius;
+    margin-top: 0.5rem;
+    padding: 0.7rem 0.6rem;
+
+    &_item {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: none;
+      background: transparent;
+      text-align: start;
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      border-radius: 0.5rem;
+      margin-bottom: 0.7rem;
+      transition: 0.4s;
+      color: inherit;
+
+      &:last-child{
+        margin-bottom: 0;
+      }
+
+      &.checked {
+        background: $highlightColor;
+        color: $activeColor;
+        font-weight: bold;
+      }
+
+      &:hover, &.highlight{
+        background: $highlightColor;
+      }
+
+      &_text{
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        &_image{
+          height: 0.75rem;
+        }
+      }
+
+      &_check_icon {
+        height: 1rem;
+        opacity: 0;
+        transition: 0.4s;
+        color: inherit;
+        &.checked{
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

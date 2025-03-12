@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# React Multi Select input
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created for An interview task.
+
+## Goals
+
+- Reusability of Multi select input component
+- Using various capabilities of React
+- The lack of dependency of the component on the library or other components
 
 ## Available Scripts
 
